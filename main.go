@@ -192,6 +192,16 @@ func visit(path string, f os.FileInfo, err error) error {
 				if !strings.Contains(testText, "*/") {
 					for scanner.Scan() {
 						if strings.Contains(scanner.Text(), "*/") {
+							// loop up empty lines
+							for scanner.Scan() {
+								nextTestText := strings.TrimSpace(scanner.Text())
+								if nextTestText != "" {
+									_, err = newFile.Write(scanner.Bytes())
+									checkErr(err)
+									newFile.WriteString("\n")
+									break
+								}
+							}
 							break
 						}
 					}
