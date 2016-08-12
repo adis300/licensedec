@@ -11,7 +11,7 @@ import (
 
 const defaultExts = "m,h,js,swift,go,cpp,mm,hh,hpp,mpp,java"
 
-var templatePath, rootPath string
+var templatePath, workDir string
 var extensions = map[string]bool{}
 var isRecursive, shouldCleanBackup bool
 var fileProcessRecord = map[string]bool{}
@@ -21,7 +21,7 @@ var licenseContent []byte
 func main() {
 	// Define an parse arguments
 	templatePathPtr := flag.String("license", "LICENSE", "Path to the license template")
-	rootPathPtr := flag.String("root", "./", "Absolute path to find all file to modify")
+	workDirPtr := flag.String("wd", "./", "Absolute path to find all file to modify")
 	extensionsPtr := flag.String("exts", defaultExts, "All extensions to modify, comma separated values")
 	isRecursivePtr := flag.Bool("recursive", false, "Marks if the program should search subfolders")
 	shouldCleanBackupPtr := flag.Bool("clean", true, "Marks if the program should clean back up files")
@@ -30,15 +30,15 @@ func main() {
 
 	// Populate arguments
 	templatePath = *templatePathPtr
-	rootPath = *rootPathPtr
+	workDir = *workDirPtr
 	isRecursive = *isRecursivePtr
 	shouldCleanBackup = *shouldCleanBackupPtr
 	extSlice := strings.Split(strings.Replace(*extensionsPtr, " ", "", -1), ",")
 	for _, val := range extSlice {
 		extensions[val] = true
 	}
-	if !(*rootPathPtr == "./" || *rootPathPtr == "." || *rootPathPtr == "") {
-		relativePath = *rootPathPtr
+	if !(workDir == "./" || workDir == "." || workDir == "") {
+		relativePath = *workDirPtr
 	}
 
 	// Load license content
@@ -49,11 +49,11 @@ func main() {
 	}
 
 	// Print argument results
-	fmt.Println("[+] Using license template:", *templatePathPtr)
-	fmt.Println("[+] Searching files in:", *rootPathPtr)
+	fmt.Println("[+] Using license template:", templatePathPtr)
+	fmt.Println("[+] Searching files in:", workDir)
 	fmt.Println("[+] Formattign extensions:", *extensionsPtr)
-	fmt.Println("[+] Format is recursive?:", *isRecursivePtr)
-	fmt.Println("[+] Should clean back up files?:", *shouldCleanBackupPtr)
+	fmt.Println("[+] Format is recursive?:", isRecursive)
+	fmt.Println("[+] Should clean back up files?:", shouldCleanBackup)
 	fmt.Println("[+] Path to scan:", relativePath)
 	fmt.Println("tail:", flag.Args())
 

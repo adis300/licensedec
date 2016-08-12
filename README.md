@@ -10,14 +10,14 @@ All arguments are optional
 ```
 go get -u github.com/licensedec
 
-licensedec -root=/YourAbsolutePath -license=MyLicense.txt -recursive=true -exts=m,h
+licensedec -wd=/YourAbsolutePath -license=MyLicense.txt -recursive=true -exts=m,h
 
 ```
 
 ## Meaning of all parameters
 | Parameter |     Description     |  Default value |
 |----------|:-------------:|:-----:|
-| root |  Absolute path | pwd |
+| wd |  Absolute work directory path | pwd |
 | license |    Path to your license template(relative or absolute)   |   LICENSE |
 | recursive | Search sub folder? | false |
 | clean | Clean temporary file? | true |
