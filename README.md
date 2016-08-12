@@ -10,7 +10,7 @@ All arguments are optional
 ```
 go get -u github.com/licensedec
 
-licensedec root=/YourAbsolutePath license=MyLicense.txt recursive=true exts=m,h
+licensedec -root=/YourAbsolutePath -license=MyLicense.txt -recursive=true -exts=m,h
 
 ```
 
@@ -27,5 +27,5 @@ licensedec root=/YourAbsolutePath license=MyLicense.txt recursive=true exts=m,h
 ```
 cd yourSourceCodeDir
 
-licensedec recursive=true license=MyLicense.txt
+licensedec -recursive=true -license=MyLicense.txt
 ```
