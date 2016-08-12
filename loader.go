@@ -9,9 +9,11 @@ import (
 var relativePath = ""
 
 func init() {
-	filename := os.Args[0] // get command line first parameter
-	filedirectory := filepath.Dir(filename)
-	relativePath, _ = filepath.Abs(filedirectory)
+	// Below code get source code relative path
+	// filename := os.Args[0] // get command line first parameter
+	// filedirectory := filepath.Dir(filename)
+	// relativePath, _ = filepath.Abs(filedirectory)
+	relativePath, _ = os.Getwd()
 }
 
 // GetRelativePath implementation

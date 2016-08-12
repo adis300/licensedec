@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-const defaultExts = "m,h,js,swift,go,cpp,mm,hh,hpp,java"
+const defaultExts = "m,h,js,swift,go,cpp,mm,hh,hpp,mpp,java"
 
 var templatePath, rootPath string
 var extensions = map[string]bool{}
@@ -20,7 +20,7 @@ var licenseContent []byte
 
 func main() {
 	// Define an parse arguments
-	templatePathPtr := flag.String("template", "LICENSE", "Path to the license template")
+	templatePathPtr := flag.String("license", "LICENSE", "Path to the license template")
 	rootPathPtr := flag.String("root", "./", "Absolute path to find all file to modify")
 	extensionsPtr := flag.String("exts", defaultExts, "All extensions to modify, comma separated values")
 	isRecursivePtr := flag.Bool("recursive", false, "Marks if the program should search subfolders")
@@ -41,6 +41,13 @@ func main() {
 		relativePath = *rootPathPtr
 	}
 
+	// Load license content
+	if strings.HasPrefix(templatePath, "/") {
+		licenseContent = LoadFile(templatePath)
+	} else {
+		licenseContent = LoadFileRelative(templatePath)
+	}
+
 	// Print argument results
 	fmt.Println("[+] Using license template:", *templatePathPtr)
 	fmt.Println("[+] Searching files in:", *rootPathPtr)
@@ -49,9 +56,6 @@ func main() {
 	fmt.Println("[+] Should clean back up files?:", *shouldCleanBackupPtr)
 	fmt.Println("[+] Path to scan:", relativePath)
 	fmt.Println("tail:", flag.Args())
-
-	// Load license content
-	licenseContent = LoadFileRelative(templatePath)
 
 	// Walk through the directory
 	_ = filepath.Walk(relativePath, visit)
